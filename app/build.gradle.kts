@@ -1,14 +1,15 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt) // Asegúrate de que esta línea esté incluida
 }
 
 android {
-    namespace = "com.example.feedback1_aplicaciondegestiondenovelass"
+    namespace = "com.example.feedback1_aplicacindegestindenovelas"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.feedback1_aplicaciondegestiondenovelass"
+        applicationId = "com.example.feedback1_aplicacindegestindenovelas"
         minSdk = 33
         targetSdk = 34
         versionCode = 1
@@ -47,10 +48,18 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    sourceSets {
+        getByName("main") {
+            manifest.srcFile("src/main/AndroidManifest.xml")
+            java.srcDirs("src/main/java")
+            res.srcDirs("src/main/res")
+        }
+    }
+
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -59,6 +68,14 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.room.runtime) // Dependencia de Room runtime
+    kapt(libs.androidx.room.compiler) // Dependencia de Room compiler
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.runtime.livedata)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -67,3 +84,12 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
+
+    /*testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test.v164)
+    androidTestImplementation(libs.ui.test.junit4)
+    androidTestImplementation(libs.androidx.junit.v113)
+    androidTestImplementation(libs.androidx.espresso.core.v340)
+    testImplementation(libs.kotlinx.coroutines.test)
+    */
+
