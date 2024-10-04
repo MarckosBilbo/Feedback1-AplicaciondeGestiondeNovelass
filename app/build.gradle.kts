@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kapt) // Asegúrate de que esta línea esté incluida
+    id("com.google.gms.google-services") version libs.versions.googleServices.get() // Aplica el plugin de Google Services
 }
 
 android {
@@ -83,7 +84,15 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Firebase dependencies
+    implementation(libs.firebase.database)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.messaging)
 }
+
+// Aplica el plugin de Google Services
+apply(plugin = "com.google.gms.google-services")
 
     /*testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test.v164)
