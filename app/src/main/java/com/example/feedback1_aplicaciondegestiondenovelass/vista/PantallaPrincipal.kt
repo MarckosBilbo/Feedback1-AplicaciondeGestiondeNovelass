@@ -108,7 +108,7 @@ fun PantallaPrincipal(viewModel: VistaModeloNovela = viewModel()) {
             items(novels) { novel ->
                 NovelItem(novel, onClick = {
                     selectedNovel = novel
-                    title = novel.title
+                    title = novel.title ?: ""
                     author = novel.author
                     year = if (novel.year == -1) "Año no especificado" else novel.year.toString()
                     synopsis = novel.synopsis
@@ -124,7 +124,9 @@ fun PantallaPrincipal(viewModel: VistaModeloNovela = viewModel()) {
 }
 
 @Composable
-fun NovelItem(novel: Novel, onClick: () -> Unit, onDelete: () -> Unit, onFavorite: () -> Unit) {
+fun NovelItem(novel: Novel?, onClick: () -> Unit, onDelete: () -> Unit, onFavorite: () -> Unit) {
+    if (novel == null) return
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -133,7 +135,7 @@ fun NovelItem(novel: Novel, onClick: () -> Unit, onDelete: () -> Unit, onFavorit
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = novel.title,
+            text = novel.title ?: "Unknown Title",
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.weight(1f)
         )
