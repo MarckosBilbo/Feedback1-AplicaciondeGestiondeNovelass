@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "1067813577875",
-    "project_id": "aplicaciongestionnovelas",
-    "storage_bucket": "aplicaciongestionnovelas.appspot.com"
+    "project_number": "58294395802",
+    "project_id": "appgestionnovelass",
+    "storage_bucket": "appgestionnovelass.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1067813577875:android:b4bdf6d1bd0433f9591966",
+        "mobilesdk_app_id": "1:58294395802:android:8ae558b51ebef6919bd023",
         "android_client_info": {
           "package_name": "com.example.feedback1_aplicacindegestindenovelass"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAwcsoLaQhJLz3zrt7ko_zZrmH8bYWW3rk"
+          "current_key": "AIzaSyA6jw_xUAbPocJid2H6-xKnO5GhI5RbQbY"
         }
       ],
       "services": {
