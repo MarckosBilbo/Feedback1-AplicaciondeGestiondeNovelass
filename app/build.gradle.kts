@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.feedback1_aplicacindegestindenovelas"
+    namespace = "com.example.feedback1_aplicacindegestindenovelass"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.feedback1_aplicacindegestindenovelas"
+        applicationId = "com.example.feedback1_aplicacindegestindenovelass"
         minSdk = 33
         targetSdk = 34
         versionCode = 1
@@ -73,8 +73,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.recyclerview)
-    implementation(libs.androidx.room.runtime) // Dependencia de Room runtime
-    kapt(libs.androidx.room.compiler) // Dependencia de Room compiler
+    //implementation(libs.androidx.room.runtime) // Dependencia de Room runtime
+    //kapt(libs.androidx.room.compiler) // Dependencia de Room compiler
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.runtime.livedata)
     testImplementation(libs.junit)
@@ -89,6 +89,9 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.messaging)
+    implementation(libs.androidx.multidex)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
 }
 
 // Aplica el plugin de Google Services
