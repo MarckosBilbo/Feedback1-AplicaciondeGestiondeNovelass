@@ -1,19 +1,18 @@
-// Novel.java
 package com.example.feedback1_aplicaciondegestiondenovelass.modelo;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
-@Entity(tableName = "novel_table")
 public class Novel {
 
-    @PrimaryKey(autoGenerate = true)
     private int id;
     private String title;
     private String author;
     private int year;
     private String synopsis;
     private boolean isFavorite;
+
+
+    public Novel() {
+        //Segun me han explicado para firebase no hacen falta argumentos en el constructor
+    }
 
     public Novel(String title, String author, int year, String synopsis) {
         this.title = title;
