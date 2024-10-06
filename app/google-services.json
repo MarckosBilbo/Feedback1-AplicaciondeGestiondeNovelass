@@ -1,14 +1,14 @@
 {
   "project_info": {
-    "project_number": "550609595515",
-    "firebase_url": "https://appgestornovelas-default-rtdb.europe-west1.firebasedatabase.app",
-    "project_id": "appgestornovelas",
-    "storage_bucket": "appgestornovelas.appspot.com"
+    "project_number": "1029511946290",
+    "firebase_url": "https://gestorapp-2cd2b-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "gestorapp-2cd2b",
+    "storage_bucket": "gestorapp-2cd2b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:550609595515:android:fc90d8b01192ea3cdec6de",
+        "mobilesdk_app_id": "1:1029511946290:android:81c863225ec778d457dc2b",
         "android_client_info": {
           "package_name": "com.example.feedback1_aplicacindegestindenovelass"
         }
@@ -16,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDAHyz0-7v9iRDe3UE9I-YnmRba8Ww3rOU"
+          "current_key": "AIzaSyD-dT4vhhadnbWcmJzzKIXap5zPUnuJfDY"
         }
       ],
       "services": {
