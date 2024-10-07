@@ -1,14 +1,13 @@
 {
   "project_info": {
-    "project_number": "339348100098",
-    "firebase_url": "https://appprueva-33fa0-default-rtdb.europe-west1.firebasedatabase.app",
-    "project_id": "appprueva-33fa0",
-    "storage_bucket": "appprueva-33fa0.appspot.com"
+    "project_number": "1038124687608",
+    "project_id": "gestorprueba-33ba3",
+    "storage_bucket": "gestorprueba-33ba3.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:339348100098:android:49a1d1207feb74dd6dc31b",
+        "mobilesdk_app_id": "1:1038124687608:android:2e1295887f97783f351b0d",
         "android_client_info": {
           "package_name": "com.example.feedback1_aplicacindegestindenovelass"
         }
@@ -16,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDMGBdLRFU4xnpNIh2-F8N5L7Ki_AAH0nA"
+          "current_key": "AIzaSyAe8cUiKgM4GFmYf41V3WsTZdqszNzD0dQ"
         }
       ],
       "services": {

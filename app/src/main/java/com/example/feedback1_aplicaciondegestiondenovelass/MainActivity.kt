@@ -55,10 +55,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+
     private fun scheduleAlarm() {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, SyncJobService::class.java)
-        val pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         val interval = AlarmManager.INTERVAL_FIFTEEN_MINUTES
         alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + interval, interval, pendingIntent

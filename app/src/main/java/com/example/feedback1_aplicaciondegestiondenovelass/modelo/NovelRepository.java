@@ -1,7 +1,6 @@
 package com.example.feedback1_aplicaciondegestiondenovelass.modelo;
 
 import android.app.Application;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -35,7 +34,10 @@ public class NovelRepository {
                 List<Novel> novels = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Novel novel = snapshot.getValue(Novel.class);
-                    novels.add(novel);
+                    if (novel != null) {
+                        novel.setKey(snapshot.getKey());
+                        novels.add(novel);
+                    }
                 }
                 allNovels.postValue(novels);
             }
@@ -48,15 +50,19 @@ public class NovelRepository {
     }
 
     public void insert(Novel novel) {
-        executorService.execute(() -> databaseReference.push().setValue(novel));
+        executorService.execute(() -> {
+            DatabaseReference newRef = databaseReference.push();
+            novel.setKey(newRef.getKey());
+            newRef.setValue(novel);
+        });
     }
 
     public void delete(Novel novel) {
-        executorService.execute(() -> databaseReference.child(String.valueOf(novel.getId())).removeValue());
+        executorService.execute(() -> databaseReference.child(novel.getKey()).removeValue());
     }
 
     public void update(Novel novel) {
-        executorService.execute(() -> databaseReference.child(String.valueOf(novel.getId())).setValue(novel));
+        executorService.execute(() -> databaseReference.child(novel.getKey()).setValue(novel));
     }
 
     public LiveData<List<Novel>> getAllNovels() {
