@@ -1,6 +1,8 @@
 package com.example.feedback1_aplicaciondegestiondenovelass.modelo;
 
 import android.app.Application;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -20,8 +22,8 @@ public class NovelRepository {
     private final ExecutorService executorService;
 
     public NovelRepository(Application application) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("novels");
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://app1234-c23ca-default-rtdb.europe-west1.firebasedatabase.app");
+        databaseReference = database.getReference("APP");
         allNovels = new MutableLiveData<>();
         executorService = Executors.newFixedThreadPool(2);
         fetchAllNovels();
@@ -40,11 +42,12 @@ public class NovelRepository {
                     }
                 }
                 allNovels.postValue(novels);
+                Log.d("NovelRepository", "Novels fetched: " + novels.size());
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Handle possible errors.
+                Log.e("NovelRepository", "Error fetching novels", databaseError.toException());
             }
         });
     }
