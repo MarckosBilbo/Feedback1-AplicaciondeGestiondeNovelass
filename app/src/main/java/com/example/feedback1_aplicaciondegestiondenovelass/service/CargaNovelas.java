@@ -1,3 +1,4 @@
+/*
 package com.example.feedback1_aplicaciondegestiondenovelass.service;
 
 import android.content.Context;
@@ -43,3 +44,4 @@ public class CargaNovelas extends AsyncTaskLoader<List<Novel>> {
         forceLoad();
     }
 }
+*/

@@ -1,4 +1,4 @@
-package com.example.feedback1_aplicaciondegestiondenovelass.service;
+/* com.example.feedback1_aplicaciondegestiondenovelass.service;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
@@ -68,4 +68,4 @@ public class SyncJobService extends JobService {
             // No hace nada de momento
         }
     }
-}
+}*/

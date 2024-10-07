@@ -1,4 +1,4 @@
-package com.example.feedback1_aplicaciondegestiondenovelass.service;
+/*package com.example.feedback1_aplicaciondegestiondenovelass.service;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,4 +20,4 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
             MainActivity.scheduleJob(context);
         }
     }
-}
+}*/
