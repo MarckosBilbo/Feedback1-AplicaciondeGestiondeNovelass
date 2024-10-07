@@ -12,8 +12,10 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.feedback1_aplicaciondegestiondenovelass.modelo.VistaModeloNovela
 import com.example.feedback1_aplicaciondegestiondenovelass.modelo.Novel
@@ -21,6 +23,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.ui.text.style.TextDecoration
 import com.example.feedback1_aplicaciondegestiondenovelass.ui.theme.Feedback1AplicacióndeGestióndeNovelassTheme
 
 @Preview(showBackground = true)
@@ -117,6 +120,18 @@ fun PantallaPrincipal(viewModel: VistaModeloNovela = viewModel()) {
             }
         }
 
+        Spacer(modifier = Modifier.weight(1f))
+
+        Text(
+            "Click Novela = (Info + Edit)",
+            style = MaterialTheme.typography.bodyLarge.copy(
+                fontWeight = FontWeight.Bold,
+                textDecoration = TextDecoration.Underline,
+                fontSize = 28.sp
+            ),
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
         selectedNovel?.let { novel ->
             NovelDetails(novel)
         }
@@ -150,15 +165,17 @@ fun NovelItem(novel: Novel?, onClick: () -> Unit, onDelete: () -> Unit, onFavori
 
 @Composable
 fun NovelDetails(novel: Novel) {
-    Column(
+    Card(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(8.dp)
             .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        elevation = CardDefaults.cardElevation(4.dp)
     ) {
-        Text(text = "Título: ${novel.title}", style = MaterialTheme.typography.titleLarge)
-        Text(text = "Autor: ${novel.author}", style = MaterialTheme.typography.bodyMedium)
-        Text(text = "Año: ${if (novel.year == -1) "Año no especificado" else novel.year.toString()}", style = MaterialTheme.typography.bodyMedium)
-        Text(text = "Sinopsis: ${novel.synopsis}", style = MaterialTheme.typography.bodyMedium)
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(text = "Título: ${novel.title}", style = MaterialTheme.typography.titleLarge)
+            Text(text = "Autor: ${novel.author}", style = MaterialTheme.typography.bodyMedium)
+            Text(text = "Año: ${if (novel.year == -1) "Año no especificado" else novel.year.toString()}", style = MaterialTheme.typography.bodyMedium)
+            Text(text = "Sinopsis: ${novel.synopsis}", style = MaterialTheme.typography.bodyMedium)
+        }
     }
 }
