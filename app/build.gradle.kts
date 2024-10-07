@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.feedback1_aplicacindegestindenovelass"
+    namespace = "com.example.feedback1_aplicaciondegestiondenovelass"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.feedback1_aplicacindegestindenovelass"
+        applicationId = "com.example.feedback1_aplicaciondegestiondenovelass"
         minSdk = 33
         targetSdk = 34
         versionCode = 1
