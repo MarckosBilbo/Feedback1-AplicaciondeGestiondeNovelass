@@ -29,7 +29,7 @@ public class NovelRepository {
         fetchAllNovels();
     }
 
-    private void fetchAllNovels() {
+    public void fetchAllNovels() {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
