@@ -92,6 +92,9 @@ dependencies {
     implementation(libs.androidx.multidex)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
+
+    //extras
+    implementation (libs.androidx.work.runtime.ktx)
 }
 
 // Aplica el plugin de Google Services
