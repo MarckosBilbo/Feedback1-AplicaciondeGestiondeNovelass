@@ -2,10 +2,10 @@ package com.example.feedback1_aplicaciondegestiondenovelass.modelo;
 
 import android.app.Application;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,10 +20,12 @@ public class NovelRepository {
     private DatabaseReference databaseReference;
     private MutableLiveData<List<Novel>> allNovels;
     private final ExecutorService executorService;
+    private String userId;
 
     public NovelRepository(Application application) {
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://app1234-c23ca-default-rtdb.europe-west1.firebasedatabase.app");
-        databaseReference = database.getReference("APP");
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        databaseReference = database.getReference("APP").child("users").child(userId).child("novels");
         allNovels = new MutableLiveData<>();
         executorService = Executors.newFixedThreadPool(2);
         fetchAllNovels();
