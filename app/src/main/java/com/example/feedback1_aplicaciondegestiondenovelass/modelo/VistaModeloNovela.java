@@ -1,4 +1,3 @@
-// VistaModeloNovela.java
 package com.example.feedback1_aplicaciondegestiondenovelass.modelo;
 
 import android.app.Application;
