@@ -27,6 +27,12 @@
             </intent-filter>
         </activity>
 
+        <!-- Declarar la actividad PantallaLogin -->
+        <activity android:name="com.example.feedback1_aplicaciondegestiondenovelass.vista.PantallaLogin" />
+
+        <!-- Declarar la actividad PantallaRegistro -->
+        <activity android:name="com.example.feedback1_aplicaciondegestiondenovelass.vista.PantallaRegistro" />
+
     </application>
 
 </manifest>
