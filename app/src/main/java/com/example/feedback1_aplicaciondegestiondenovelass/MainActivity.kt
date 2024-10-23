@@ -1,69 +1,66 @@
 package com.example.feedback1_aplicaciondegestiondenovelass
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.feedback1_aplicaciondegestiondenovelass.ui.theme.Feedback1AplicacióndeGestióndeNovelassTheme
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import com.example.feedback1_aplicaciondegestiondenovelass.service.ConnectivityWorker
+import com.example.feedback1_aplicaciondegestiondenovelass.vista.PantallaLogin
 import com.example.feedback1_aplicaciondegestiondenovelass.vista.PantallaPrincipal
+import com.example.feedback1_aplicaciondegestiondenovelass.vista.PantallaConfiguracion
+import com.example.feedback1_aplicaciondegestiondenovelass.modelo.VistaModeloConfiguracion
+import com.example.feedback1_aplicaciondegestiondenovelass.ui.theme.Feedback1AplicacióndeGestióndeNovelassTheme
+import com.google.firebase.auth.FirebaseAuth
 
 
 class MainActivity : ComponentActivity() {
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            Feedback1AplicacióndeGestióndeNovelassTheme {
-                val navController = rememberNavController()
-                NavHost(navController, startDestination = "main") {
-                    composable("main") { PantallaPrincipal() }
-                }
-            }
+        auth = FirebaseAuth.getInstance()
+
+        if (auth.currentUser == null) {
+            startActivity(Intent(this, PantallaLogin::class.java))
+            finish()
+            return
         }
-    }
-}
 
-
-
-
-/*
-import android.app.job.JobInfo
-import android.app.job.JobScheduler
-import android.content.ComponentName
-import android.content.Context
-
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            Feedback1AplicacióndeGestióndeNovelassTheme {
+            val viewModel: VistaModeloConfiguracion = viewModel()
+            val isDarkMode by viewModel.isDarkMode.observeAsState(initial = false)
+
+            Feedback1AplicacióndeGestióndeNovelassTheme(darkTheme = isDarkMode) {
                 val navController = rememberNavController()
                 NavHost(navController, startDestination = "main") {
-                    composable("main") { PantallaPrincipal() }
+                    composable("main") { PantallaPrincipal(navController, isDarkMode) }
+                    composable("settings") { PantallaConfiguracion(navController, isDarkMode) }
                 }
             }
         }
 
-        scheduleJob(this)
+        scheduleConnectivityWorker()
     }
 
-    companion object {
-        @JvmStatic
-        fun scheduleJob(context: Context) {
-            val componentName = ComponentName(context, SyncJobService::class.java)
-            val jobInfo = JobInfo.Builder(1, componentName)
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
-                .setPersisted(true)
-                .setPeriodic(15 * 60 * 1000)
-                .build()
+    private fun scheduleConnectivityWorker() {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
 
-            val jobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-            jobScheduler.schedule(jobInfo)
-        }
+        val workRequest = OneTimeWorkRequestBuilder<ConnectivityWorker>()
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance(this).enqueue(workRequest)
     }
 }
-*/
