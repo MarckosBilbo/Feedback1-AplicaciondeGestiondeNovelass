@@ -69,6 +69,15 @@ class PantallaRegistro : ComponentActivity() {
                 ) {
                     Text("Register")
                 }
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(
+                    onClick = {
+                        startActivity(Intent(this@PantallaRegistro, PantallaLogin::class.java))
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Back to Login")
+                }
             }
         }
     }
