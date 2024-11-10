@@ -18,10 +18,11 @@ import com.example.feedback1_aplicaciondegestiondenovelass.service.ConnectivityW
 import com.example.feedback1_aplicaciondegestiondenovelass.vista.PantallaLogin
 import com.example.feedback1_aplicaciondegestiondenovelass.vista.PantallaPrincipal
 import com.example.feedback1_aplicaciondegestiondenovelass.vista.PantallaConfiguracion
+import com.example.feedback1_aplicaciondegestiondenovelass.vista.ListaNovelasFragment
+import com.example.feedback1_aplicaciondegestiondenovelass.vista.DetallesNovelaFragment
 import com.example.feedback1_aplicaciondegestiondenovelass.modelo.VistaModeloConfiguracion
 import com.example.feedback1_aplicaciondegestiondenovelass.ui.theme.Feedback1AplicacióndeGestióndeNovelassTheme
 import com.google.firebase.auth.FirebaseAuth
-
 
 class MainActivity : ComponentActivity() {
     private lateinit var auth: FirebaseAuth
@@ -45,6 +46,8 @@ class MainActivity : ComponentActivity() {
                 NavHost(navController, startDestination = "main") {
                     composable("main") { PantallaPrincipal(navController, isDarkMode) }
                     composable("settings") { PantallaConfiguracion(navController, isDarkMode) }
+                    composable("lista_novelas") { ListaNovelasFragment() }
+                    composable("detalles_novela") { DetallesNovelaFragment() }
                 }
             }
         }
