@@ -1,4 +1,3 @@
-// Novel.java
 package com.example.feedback1_aplicaciondegestiondenovelass.modelo;
 
 import android.os.Parcel;
