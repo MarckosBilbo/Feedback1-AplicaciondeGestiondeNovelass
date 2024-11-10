@@ -1,3 +1,4 @@
+// NovelRepository.java
 package com.example.feedback1_aplicaciondegestiondenovelass.modelo;
 
 import android.app.Application;
@@ -58,7 +59,13 @@ public class NovelRepository {
         executorService.execute(() -> {
             DatabaseReference newRef = databaseReference.push();
             novel.setKey(newRef.getKey());
-            newRef.setValue(novel);
+            newRef.setValue(novel).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Log.d("NovelRepository", "Novel inserted successfully");
+                } else {
+                    Log.e("NovelRepository", "Error inserting novel", task.getException());
+                }
+            });
         });
     }
 
