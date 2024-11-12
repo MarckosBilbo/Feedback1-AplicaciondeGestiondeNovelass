@@ -1,0 +1,130 @@
+@startuml
+package com.example.feedback1_aplicaciondegestiondenovelass {
+    class MainActivity {
+        - FirebaseAuth auth
+        + onCreate(Bundle): void
+        - scheduleConnectivityWorker(): void
+    }
+
+    class MyApplication {
+        + onCreate(): void
+    }
+
+    class PreferencesManager {
+        - SharedPreferences sharedPreferences
+        + setTheme(boolean): void
+        + isDarkMode(): boolean
+    }
+
+    class ConnectivityWorker {
+        + doWork(): Result
+    }
+
+    class NovelasWidgetProvider {
+        + onUpdate(Context, AppWidgetManager, int[]): void
+    }
+
+    class WidgetNovelas {
+        + WidgetNovelas(): void
+    }
+}
+
+package com.example.feedback1_aplicaciondegestiondenovelass.modelo {
+    class Novel {
+        - String key
+        - String title
+        - String author
+        - int year
+        - String synopsis
+        - boolean isFavorite
+        + Novel()
+        + Novel(String, String, int, String)
+        + writeToParcel(Parcel, int): void
+        + describeContents(): int
+        + getKey(): String
+        + setKey(String): void
+        + getTitle(): String
+        + setTitle(String): void
+        + getAuthor(): String
+        + setAuthor(String): void
+        + getYear(): int
+        + setYear(int): void
+        + getSynopsis(): String
+        + setSynopsis(String): void
+        + isFavorite(): boolean
+        + setFavorite(boolean): void
+    }
+
+    class NovelRepository {
+        - DatabaseReference databaseReference
+        - MutableLiveData<List<Novel>> allNovels
+        - ExecutorService executorService
+        - String userId
+        + NovelRepository(Application)
+        + fetchAllNovels(): void
+        + insert(Novel): void
+        + delete(Novel): void
+        + update(Novel): void
+        + getAllNovels(): LiveData<List<Novel>>
+    }
+
+    class VistaModeloConfiguracion {
+        - PreferencesManager preferencesManager
+        - MutableLiveData<Boolean> isDarkMode
+        + VistaModeloConfiguracion(Application)
+        + getIsDarkMode(): LiveData<Boolean>
+        + setTheme(boolean): void
+    }
+
+    class VistaModeloNovela {
+        - NovelRepository repository
+        - LiveData<List<Novel>> allNovels
+        + VistaModeloNovela(Application)
+        + getAllNovels(): LiveData<List<Novel>>
+        + insert(Novel): void
+        + delete(Novel): void
+        + update(Novel): void
+        + toggleFavorite(Novel): void
+    }
+}
+
+package com.example.feedback1_aplicaciondegestiondenovelass.vista {
+    class PantallaLogin {
+        - FirebaseAuth auth
+        + onCreate(Bundle): void
+    }
+
+    class PantallaRegistro {
+        - FirebaseAuth auth
+        + onCreate(Bundle): void
+    }
+
+    class PantallaPrincipal {
+        + PantallaPrincipal(NavController, boolean, VistaModeloNovela, VistaModeloConfiguracion): void
+    }
+
+    class PantallaConfiguracion {
+        + PantallaConfiguracion(NavController, boolean, VistaModeloConfiguracion): void
+    }
+
+    class ListaNovelasFragment {
+        + onCreateView(LayoutInflater, ViewGroup?, Bundle?): View
+    }
+
+    class DetallesNovelaFragment {
+        + onCreateView(LayoutInflater, ViewGroup?, Bundle?): View
+    }
+}
+
+MainActivity --> PantallaLogin
+MainActivity --> PantallaPrincipal
+MainActivity --> PantallaConfiguracion
+MainActivity --> ListaNovelasFragment
+MainActivity --> DetallesNovelaFragment
+MainActivity --> VistaModeloConfiguracion
+VistaModeloConfiguracion --> PreferencesManager
+VistaModeloNovela --> NovelRepository
+NovelRepository --> Novel
+ConnectivityWorker --> NovelRepository
+NovelasWidgetProvider --> MainActivity
+@enduml
