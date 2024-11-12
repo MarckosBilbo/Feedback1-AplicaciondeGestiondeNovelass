@@ -1,0 +1,31 @@
+@startuml
+actor User
+
+usecase "Login" as UC1
+usecase "Register" as UC2
+usecase "View Novels" as UC3
+usecase "Add Novel" as UC4
+usecase "Edit Novel" as UC5
+usecase "Delete Novel" as UC6
+usecase "Toggle Favorite" as UC7
+usecase "Change Theme" as UC8
+usecase "View Settings" as UC9
+
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+User --> UC6
+User --> UC7
+User --> UC8
+User --> UC9
+
+UC1 .> UC3 : include
+UC1 .> UC4 : include
+UC1 .> UC5 : include
+UC1 .> UC6 : include
+UC1 .> UC7 : include
+UC1 .> UC8 : include
+UC1 .> UC9 : include
+@enduml
