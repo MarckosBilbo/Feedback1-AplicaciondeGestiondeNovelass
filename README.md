@@ -15,6 +15,8 @@ Esta aplicación orientada de forma individual a cada usuario (Log-in + registro
 - **Validación de Campos**: No se pueden agregar novelas cuyos campos no hayan sido rellenados. El campo de año solo permite números y muestra "Año no especificado" si no se proporciona un número válido.
 - **Login y Registro**: Los usuarios pueden registrarse y autenticarse utilizando Firebase Authentication.
 - **Configuración de Tema**: Los usuarios pueden cambiar entre modo claro y oscuro. La preferencia de tema se guarda utilizando `SharedPreferences`.
+- **Persistencia de Datos**: La aplicación utiliza Firebase Realtime Database con persistencia habilitada para trabajar sin conexión.
+- **Widget de Novelas**: La aplicación incluye un widget que muestra las novelas favoritas del usuario.
 
 ## Estructura del Proyecto
 
@@ -37,7 +39,6 @@ Este archivo contiene la pantalla de registro donde los usuarios pueden crear un
 ### `PantallaConfiguracion.kt`
 
 Este archivo contiene la pantalla de configuración donde los usuarios pueden cambiar el tema de la aplicación.
-
 
 ### `ConectivityWorker.java`
 
@@ -70,6 +71,24 @@ Este archivo define el tema de la aplicación utilizando Material Design 3.
 ### `PreferencesManager.java`
 
 Este archivo maneja las preferencias de usuario, incluyendo la configuración del tema.
+
+## Clases de Nueva Adición
+
+### `DetallesNovelaFragment.kt`
+
+Este archivo contiene el fragmento que muestra los detalles de una novela específica.
+
+### `ListaNovelasFragment.kt`
+
+Este archivo contiene el fragmento que muestra la lista de novelas.
+
+### `NovelasWidgetProvider.kt`
+
+Este archivo define el proveedor del widget de la aplicación.
+
+### `WidgetNovelas.kt`
+
+Este archivo define el composable que muestra el widget de novelas favoritas.
 
 ## Clases Borradas
 
