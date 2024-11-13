@@ -19,13 +19,16 @@ package com.example.feedback1_aplicaciondegestiondenovelass {
     class ConnectivityWorker {
         + doWork(): Result
     }
+}
 
-    class NovelasWidgetProvider {
-        + onUpdate(Context, AppWidgetManager, int[]): void
+package com.example.feedback1_aplicaciondegestiondenovelass.fragments{
+
+    class ListaNovelasFragment {
+        + onCreateView(LayoutInflater, ViewGroup?, Bundle?): View
     }
 
-    class WidgetNovelas {
-        + WidgetNovelas(): void
+    class DetallesNovelaFragment {
+        + onCreateView(LayoutInflater, ViewGroup?, Bundle?): View
     }
 }
 
@@ -106,25 +109,22 @@ package com.example.feedback1_aplicaciondegestiondenovelass.vista {
     class PantallaConfiguracion {
         + PantallaConfiguracion(NavController, boolean, VistaModeloConfiguracion): void
     }
-
-    class ListaNovelasFragment {
-        + onCreateView(LayoutInflater, ViewGroup?, Bundle?): View
-    }
-
-    class DetallesNovelaFragment {
-        + onCreateView(LayoutInflater, ViewGroup?, Bundle?): View
-    }
 }
 
+package com.example.feedback1_aplicaciondegestiondenovelass.widgetAdaptado {
+
+    class WidgetNovelas {
+        + onUpdate(Context, AppWidgetManager, int[]): void
+    }
+
+MyApplication --> MainActivity
 MainActivity --> PantallaLogin
 MainActivity --> PantallaPrincipal
 MainActivity --> PantallaConfiguracion
-MainActivity --> ListaNovelasFragment
-MainActivity --> DetallesNovelaFragment
 MainActivity --> VistaModeloConfiguracion
 VistaModeloConfiguracion --> PreferencesManager
 VistaModeloNovela --> NovelRepository
 NovelRepository --> Novel
 ConnectivityWorker --> NovelRepository
-NovelasWidgetProvider --> MainActivity
+WidgetNovelas --> PantallaPrincipal
 @enduml
