@@ -32,14 +32,6 @@
         <!-- Declarar la actividad PantallaRegistro -->
         <activity android:name="com.example.feedback1_aplicaciondegestiondenovelass.vista.PantallaRegistro" />
 
-        <!-- Declarar el widget NovelasWidgetProvider -->
-        <receiver android:name="com.example.feedback1_aplicaciondegestiondenovelass.widget.NovelasWidgetProvider"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-        </receiver>
-
     </application>
 
 </manifest>
