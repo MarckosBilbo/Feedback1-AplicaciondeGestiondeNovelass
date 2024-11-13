@@ -82,13 +82,9 @@ Este archivo contiene el fragmento que muestra los detalles de una novela espec�
 
 Este archivo contiene el fragmento que muestra la lista de novelas.
 
-### `NovelasWidgetProvider.kt`
-
-Este archivo define el proveedor del widget de la aplicación.
-
 ### `WidgetNovelas.kt`
 
-Este archivo define el composable que muestra el widget de novelas favoritas.
+Este archivo define el composable que muestra el widget de novelas favoritas en un desplegable interactivo.
 
 ## Clases Borradas
 
@@ -99,7 +95,8 @@ Este archivo define el composable que muestra el widget de novelas favoritas.
 - **`CargaNovelas.java`**: Loader para cargar novelas desde Firebase.
 - **`NetworkChangeReceiver.java`**: Receptor para cambios en la conectividad de red.
 - **`ConnectivityReceiver.java`**: Adaptador para conectividad de redes externas como wifi en la aplicación.
-
+- **`NovelasWidgetProvider.kt`**: Este archivo define el proveedor del widget de la aplicación.
+- 
 ## Uso
 
 1. **Agregar Novela**: Completa todos los campos y haz clic en "Agregar Novela".

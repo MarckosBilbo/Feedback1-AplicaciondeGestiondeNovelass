@@ -24,7 +24,7 @@ fun WidgetNovelas(favoriteNovels: List<Novel>) {
             .clickable { expanded = !expanded }
     ) {
         Text(
-            text = "Novelas Favoritas",
+            text = "Novelas Favoritas (Click)",
             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
             color = Color.Black
         )
