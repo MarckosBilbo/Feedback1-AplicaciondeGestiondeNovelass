@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.feedback1_aplicaciondegestiondenovelass.modelo.VistaModeloNovela
@@ -26,9 +25,8 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextDecoration
+import com.example.feedback1_aplicaciondegestiondenovelass.widgetAdaptado.WidgetNovelas
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
@@ -44,120 +42,163 @@ fun PantallaPrincipal(navController: NavController, isDarkMode: Boolean, viewMod
     val context = LocalContext.current
     val backgroundColor = if (isDarkModeState) Color.DarkGray else Color.White
 
-    Box(modifier = Modifier.fillMaxSize().background(backgroundColor)) {
-        Column(
+    Column(modifier = Modifier.fillMaxSize().background(backgroundColor)) {
+        // Widget at the top
+        Box(
             modifier = Modifier
-                .fillMaxSize()
-                .background(backgroundColor)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxWidth()
+                .background(Color.White, shape = MaterialTheme.shapes.medium)
+                .padding(16.dp)
         ) {
-            TextField(
-                value = title,
-                onValueChange = { title = it },
-                label = { Text("Título") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            TextField(
-                value = author,
-                onValueChange = { author = it },
-                label = { Text("Autor") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            TextField(
-                value = year,
-                onValueChange = { year = it },
-                label = { Text("Año") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                modifier = Modifier.fillMaxWidth()
-            )
-            TextField(
-                value = synopsis,
-                onValueChange = { synopsis = it },
-                label = { Text("Sinopsis") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Button(
-                onClick = {
-                    if (title.isNotEmpty() && author.isNotEmpty() && year.isNotEmpty() && synopsis.isNotEmpty()) {
-                        if (isEditing) {
-                            selectedNovel?.let {
-                                it.title = title
-                                it.author = author
-                                it.year = year.toIntOrNull() ?: -1
-                                it.synopsis = synopsis
-                                viewModel.update(it)
-                            }
-                        } else {
-                            viewModel.insert(Novel(title, author, year.toIntOrNull() ?: -1, synopsis))
-                        }
-                        title = ""
-                        author = ""
-                        year = ""
-                        synopsis = ""
-                        isEditing = false
-                        selectedNovel = null
-                    }
-                },
+            val favoriteNovels = novels.filter { it.isFavorite }
+            WidgetNovelas(favoriteNovels)
+        }
+
+        // Rest of the screen
+        BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+            val screenWidth = maxWidth
+            val isLargeScreen = screenWidth > 600.dp
+
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.CenterHorizontally)
+                    .fillMaxSize()
+                    .background(backgroundColor)
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(if (isEditing) "Actualizar Novela" else "Agregar Novela")
-            }
+                InputFields(
+                    title = title,
+                    onTitleChange = { title = it },
+                    author = author,
+                    onAuthorChange = { author = it },
+                    year = year,
+                    onYearChange = { year = it },
+                    synopsis = synopsis,
+                    onSynopsisChange = { synopsis = it },
+                    isEditing = isEditing,
+                    onSaveClick = {
+                        if (title.isNotEmpty() && author.isNotEmpty() && year.isNotEmpty() && synopsis.isNotEmpty()) {
+                            if (isEditing) {
+                                selectedNovel?.let {
+                                    it.title = title
+                                    it.author = author
+                                    it.year = year.toIntOrNull() ?: -1
+                                    it.synopsis = synopsis
+                                    viewModel.update(it)
+                                }
+                            } else {
+                                viewModel.insert(Novel(title, author, year.toIntOrNull() ?: -1, synopsis))
+                            }
+                            title = ""
+                            author = ""
+                            year = ""
+                            synopsis = ""
+                            isEditing = false
+                            selectedNovel = null
+                        }
+                    }
+                )
 
-            Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-            LazyColumn(modifier = Modifier.weight(1f)) {
-                items(novels) { novel ->
-                    NovelItem(novel, onClick = {
-                        selectedNovel = novel
-                        title = novel.title ?: ""
-                        author = novel.author
-                        year = if (novel.year == -1) "Año no especificado" else novel.year.toString()
-                        synopsis = novel.synopsis
-                        isEditing = true
-                    }, onDelete = { viewModel.delete(novel) }, onFavorite = { viewModel.toggleFavorite(novel) }, isDarkMode = isDarkModeState)
+                LazyColumn(modifier = Modifier.weight(1f)) {
+                    items(novels) { novel ->
+                        NovelItem(novel, onClick = {
+                            selectedNovel = novel
+                            title = novel.title ?: ""
+                            author = novel.author
+                            year = if (novel.year == -1) "Año no especificado" else novel.year.toString()
+                            synopsis = novel.synopsis
+                            isEditing = true
+                        }, onDelete = { viewModel.delete(novel) }, onFavorite = { viewModel.toggleFavorite(novel) }, isDarkMode = isDarkModeState)
+                    }
+                }
+
+                if (isLargeScreen) {
+                    selectedNovel?.let { novel ->
+                        NovelDetails(novel)
+                    }
                 }
             }
 
-            Spacer(modifier = Modifier.weight(1f))
+            if (!isLargeScreen) {
+                selectedNovel?.let { novel ->
+                    NovelDetails(novel)
+                }
+            }
 
-            Text(
-                "Click Novela = (Info + Edit)",
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontWeight = FontWeight.Bold,
-                    textDecoration = TextDecoration.Underline,
-                    fontSize = 28.sp
-                ),
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
+            Button(
+                onClick = {
+                    FirebaseAuth.getInstance().signOut()
+                    context.startActivity(Intent(context, PantallaLogin::class.java))
+                },
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(16.dp)
+            ) {
+                Text("Log-out")
+            }
 
-            selectedNovel?.let { novel ->
-                NovelDetails(novel)
+            Button(
+                onClick = { navController.navigate("settings") },
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp)
+                    .padding(bottom = 48.dp) // Adjust this value as needed
+            ) {
+                Text("Configuración")
             }
         }
+    }
+}
 
+@Composable
+fun InputFields(
+    title: String,
+    onTitleChange: (String) -> Unit,
+    author: String,
+    onAuthorChange: (String) -> Unit,
+    year: String,
+    onYearChange: (String) -> Unit,
+    synopsis: String,
+    onSynopsisChange: (String) -> Unit,
+    isEditing: Boolean,
+    onSaveClick: () -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        TextField(
+            value = title,
+            onValueChange = onTitleChange,
+            label = { Text("Título") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        TextField(
+            value = author,
+            onValueChange = onAuthorChange,
+            label = { Text("Autor") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        TextField(
+            value = year,
+            onValueChange = onYearChange,
+            label = { Text("Año") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            modifier = Modifier.fillMaxWidth()
+        )
+        TextField(
+            value = synopsis,
+            onValueChange = onSynopsisChange,
+            label = { Text("Sinopsis") },
+            modifier = Modifier.fillMaxWidth()
+        )
         Button(
-            onClick = {
-                FirebaseAuth.getInstance().signOut()
-                context.startActivity(Intent(context, PantallaLogin::class.java))
-            },
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(16.dp)
+            onClick = onSaveClick,
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Log-out")
-        }
-
-        Button(
-            onClick = { navController.navigate("settings") },
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp)
-                .padding(bottom = 48.dp) // Adjust this value as needed
-        ) {
-            Text("Configuración")
+            Text(if (isEditing) "Actualizar Novela" else "Agregar Novela")
         }
     }
 }
@@ -188,8 +229,6 @@ fun NovelItem(novel: Novel?, onClick: () -> Unit, onDelete: () -> Unit, onFavori
         }
     }
 }
-
-
 
 @Composable
 fun NovelDetails(novel: Novel) {
