@@ -11,8 +11,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.feedback1_aplicaciondegestiondenovelass.service.ConnectivityWorker
 import com.example.feedback1_aplicaciondegestiondenovelass.vista.PantallaLogin
@@ -66,4 +68,58 @@ class MainActivity : ComponentActivity() {
 
         WorkManager.getInstance(this).enqueue(workRequest)
     }
+
+
+
+
+    /*
+     Para optimizar la bateria podemos hacer esto:
+     1º para el check deberia de verlo en profiler aunque pide batterystats y Battery Historian
+
+   // Modificación de la función scheduleConnectivityWorker en MainActivity
+    private fun scheduleConnectivityWorker() {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val workRequest = PeriodicWorkRequestBuilder<ConnectivityWorker>(1, TimeUnit.HOURS) // Ajusta el intervalo según sea necesario
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            "ConnectivityWorker",
+            ExistingPeriodicWorkPolicy.KEEP,
+            workRequest
+        )
+    }*/
+
+
+
+
+
+
+    /*
+        RECORDATORIO:
+
+
+        Por lo general a nivel de memoria ya lo tenemos bastante optimizado pues Usamos:
+
+        Evitar Fugas de Memoria:
+        Uso de ExecutorService para manejar tareas en segundo plano, evitando bloqueos en el hilo principal.
+        Uso de LiveData para observar cambios en los datos, lo cual ayuda a evitar fugas de memoria.
+        Uso Eficiente de LiveData y ViewModel:
+        Uso de ViewModel para mantener datos a través de cambios de configuración.
+        Uso de LiveData para observar cambios de datos de manera eficiente.
+        Reutilización de Objetos:
+        Reutilización de objetos en lugar de crear nuevas instancias repetidamente, como se puede ver en la función fetchAllNovels de NovelRepository.
+        Reciclaje de Vistas:
+        Uso de LazyColumn en PantallaPrincipal.kt para mostrar listas grandes, lo cual solo renderiza los elementos visibles en la pantalla.
+
+
+
+
+        POSIBLES MEJORAS:
+        Utiliza WeakReference para evitar fugas de memoria en caso de que mantengas referencias a objetos que pueden ser recolectados por el recolector de basura.
+     */
+
 }
