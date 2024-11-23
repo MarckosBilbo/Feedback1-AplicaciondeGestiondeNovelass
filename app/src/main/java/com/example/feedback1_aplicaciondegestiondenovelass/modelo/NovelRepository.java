@@ -80,3 +80,44 @@ public class NovelRepository {
         return allNovels;
     }
 }
+
+
+/*
+
+
+import com.example.feedback1_aplicaciondegestiondenovelass.utils.RedOptima;
+
+// ...
+
+public void insert(Novel novel) {
+    executorService.execute(() -> {
+        DatabaseReference newRef = databaseReference.push();
+        novel.setKey(newRef.getKey());
+        try {
+            byte[] datosComprimidos = RedOptima.comprimirDatos(novel.toString().getBytes());
+            newRef.setValue(new String(datosComprimidos)).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Log.d("NovelRepository", "Novela insertada con éxito");
+                } else {
+                    Log.e("NovelRepository", "Error al insertar la novela", task.getException());
+                }
+            });
+        } catch (IOException e) {
+            Log.e("NovelRepository", "Error al comprimir los datos", e);
+        }
+    });
+}
+
+public void update(Novel novel) {
+    executorService.execute(() -> {
+        try {
+            byte[] datosComprimidos = RedOptima.comprimirDatos(novel.toString().getBytes());
+            databaseReference.child(novel.getKey()).setValue(new String(datosComprimidos));
+        } catch (IOException e) {
+            Log.e("NovelRepository", "Error al comprimir los datos", e);
+        }
+    });
+}
+
+
+ */
