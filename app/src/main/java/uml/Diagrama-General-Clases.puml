@@ -116,6 +116,12 @@ package com.example.feedback1_aplicaciondegestiondenovelass.widgetAdaptado {
     class WidgetNovelas {
         + onUpdate(Context, AppWidgetManager, int[]): void
     }
+}
+
+package com.example.feedback1_aplicaciondegestiondenovelass.util {
+    class RedOptima {
+        + comprimirDatos(byte[]): byte[]
+    }
 
 MyApplication --> MainActivity
 MainActivity --> PantallaLogin
@@ -125,6 +131,7 @@ MainActivity --> VistaModeloConfiguracion
 VistaModeloConfiguracion --> PreferencesManager
 VistaModeloNovela --> NovelRepository
 NovelRepository --> Novel
+NovelRepository --> RedOptima
 ConnectivityWorker --> NovelRepository
 WidgetNovelas --> PantallaPrincipal
 @enduml
