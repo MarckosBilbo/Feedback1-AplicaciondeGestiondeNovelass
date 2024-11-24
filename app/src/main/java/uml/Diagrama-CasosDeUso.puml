@@ -10,6 +10,8 @@ usecase "Delete Novel" as UC6
 usecase "Toggle Favorite" as UC7
 usecase "Change Theme" as UC8
 usecase "View Settings" as UC9
+usecase "Optimize Network" as UC10
+usecase "Optimize Battery" as UC11
 
 User --> UC1
 User --> UC2
@@ -20,6 +22,9 @@ User --> UC6
 User --> UC7
 User --> UC8
 User --> UC9
+User --> UC10
+User --> UC11
+
 
 UC1 .> UC3 : include
 UC1 .> UC4 : include
