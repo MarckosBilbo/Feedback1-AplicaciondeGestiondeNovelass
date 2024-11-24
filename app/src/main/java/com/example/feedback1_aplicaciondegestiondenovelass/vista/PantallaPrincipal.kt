@@ -30,7 +30,12 @@ import com.example.feedback1_aplicaciondegestiondenovelass.widgetAdaptado.Widget
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun PantallaPrincipal(navController: NavController, isDarkMode: Boolean, viewModel: VistaModeloNovela = viewModel(), configViewModel: VistaModeloConfiguracion = viewModel()) {
+fun PantallaPrincipal(
+    navController: NavController,
+    isDarkMode: Boolean,
+    viewModel: VistaModeloNovela = viewModel(),
+    configViewModel: VistaModeloConfiguracion = viewModel()
+) {
     val isDarkModeState by configViewModel.isDarkMode.observeAsState(initial = isDarkMode)
     val novels by viewModel.getAllNovels().observeAsState(emptyList())
     var selectedNovel by remember { mutableStateOf<Novel?>(null) }
@@ -42,27 +47,24 @@ fun PantallaPrincipal(navController: NavController, isDarkMode: Boolean, viewMod
     val context = LocalContext.current
     val backgroundColor = if (isDarkModeState) Color.DarkGray else Color.White
 
-    Column(modifier = Modifier.fillMaxSize().background(backgroundColor)) {
-        // Widget at the top
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.White, shape = MaterialTheme.shapes.medium)
-                .padding(16.dp)
-        ) {
-            val favoriteNovels = novels.filter { it.isFavorite }
-            WidgetNovelas(favoriteNovels)
-        }
+    Box(modifier = Modifier.fillMaxSize().background(backgroundColor)) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            // Widget at the top
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White, shape = MaterialTheme.shapes.medium)
+                    .padding(16.dp)
+            ) {
+                val favoriteNovels = novels.filter { it.isFavorite }
+                WidgetNovelas(favoriteNovels)
+            }
 
-        // Rest of the screen
-        BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
-            val screenWidth = maxWidth
-            val isLargeScreen = screenWidth > 600.dp
-
+            // Input fields and novel list
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .background(backgroundColor)
+                    .weight(1f)
+                    .fillMaxWidth()
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -103,54 +105,63 @@ fun PantallaPrincipal(navController: NavController, isDarkMode: Boolean, viewMod
 
                 LazyColumn(modifier = Modifier.weight(1f)) {
                     items(novels) { novel ->
-                        NovelItem(novel, onClick = {
-                            selectedNovel = novel
-                            title = novel.title ?: ""
-                            author = novel.author
-                            year = if (novel.year == -1) "Año no especificado" else novel.year.toString()
-                            synopsis = novel.synopsis
-                            isEditing = true
-                        }, onDelete = { viewModel.delete(novel) }, onFavorite = { viewModel.toggleFavorite(novel) }, isDarkMode = isDarkModeState)
+                        NovelItem(
+                            novel,
+                            onClick = {
+                                selectedNovel = novel
+                                title = novel.title ?: ""
+                                author = novel.author
+                                year = if (novel.year == -1) "Año no especificado" else novel.year.toString()
+                                synopsis = novel.synopsis
+                                isEditing = true
+                            },
+                            onDelete = { viewModel.delete(novel) },
+                            onFavorite = { viewModel.toggleFavorite(novel) },
+                            isDarkMode = isDarkModeState
+                        )
                     }
                 }
-
-                if (isLargeScreen) {
-                    selectedNovel?.let { novel ->
-                        NovelDetails(novel)
-                    }
-                }
             }
+        }
 
-            if (!isLargeScreen) {
-                selectedNovel?.let { novel ->
-                    NovelDetails(novel)
-                }
-            }
-
-            Button(
-                onClick = {
-                    FirebaseAuth.getInstance().signOut()
-                    context.startActivity(Intent(context, PantallaLogin::class.java))
-                },
+        // Details panel at the bottom
+        selectedNovel?.let { novel ->
+            Box(
                 modifier = Modifier
-                    .align(Alignment.TopEnd)
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surface)
                     .padding(16.dp)
             ) {
-                Text("Log-out")
+                NovelDetails(novel)
             }
+        }
 
-            Button(
-                onClick = { navController.navigate("settings") },
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(16.dp)
-                    .padding(bottom = 48.dp) // Adjust this value as needed
-            ) {
-                Text("Configuración")
-            }
+        // Logout button
+        Button(
+            onClick = {
+                FirebaseAuth.getInstance().signOut()
+                context.startActivity(Intent(context, PantallaLogin::class.java))
+            },
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(16.dp)
+        ) {
+            Text("Log-out")
+        }
+
+        // Configuration button
+        Button(
+            onClick = { navController.navigate("settings") },
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp)
+        ) {
+            Text("Configuración")
         }
     }
 }
+
 
 @Composable
 fun InputFields(
