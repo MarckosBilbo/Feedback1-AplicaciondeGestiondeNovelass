@@ -86,6 +86,15 @@ Este archivo contiene el fragmento que muestra la lista de novelas.
 
 Este archivo define el composable que muestra el widget de novelas favoritas en un desplegable interactivo.
 
+### `RedOptima.java`
+
+Este archivo contiene la clase `RedOptima` que proporciona un método para comprimir datos utilizando GZIP.
+
+## Clases Modificadas
+
+- **`MainActivity`**: Se ha modificado el método `scheduleConnectivityWorker` en `MainActivity` para utilizar `PeriodicWorkRequestBuilder` en lugar de `OneTimeWorkRequestBuilder`, lo que permite ejecutar la tarea de conectividad de manera periódica y optimizar el uso de batería.
+- **`NovelRepository`**: Concretamente los metodos de envio y traida de datos de Firebase (insert y update) han sido modificados aprovechando la compresion de datos de `RedOptima` para mejorar el uso de red de la app. 
+
 ## Clases Borradas
 
 - **`NovelDatabase.java`**: Esta clase fue eliminada porque la aplicación ya no utiliza Room Database para el almacenamiento de datos, sino que ahora utiliza Firebase.
@@ -96,7 +105,7 @@ Este archivo define el composable que muestra el widget de novelas favoritas en 
 - **`NetworkChangeReceiver.java`**: Receptor para cambios en la conectividad de red.
 - **`ConnectivityReceiver.java`**: Adaptador para conectividad de redes externas como wifi en la aplicación.
 - **`NovelasWidgetProvider.kt`**: Este archivo define el proveedor del widget de la aplicación.
-- 
+
 ## Uso
 
 1. **Agregar Novela**: Completa todos los campos y haz clic en "Agregar Novela".
