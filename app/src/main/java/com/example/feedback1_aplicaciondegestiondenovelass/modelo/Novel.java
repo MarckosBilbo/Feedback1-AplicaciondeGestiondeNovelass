@@ -3,6 +3,8 @@ package com.example.feedback1_aplicaciondegestiondenovelass.modelo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.Gson;
+
 public class Novel implements Parcelable {
     private String key;
     private String title;
@@ -57,6 +59,11 @@ public class Novel implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
+    }
+
+
+    public String toJson() {
+        return new Gson().toJson(this);
     }
 
     // Getters and setters
