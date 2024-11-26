@@ -25,6 +25,7 @@ import com.example.feedback1_aplicaciondegestiondenovelass.fragments.DetallesNov
 import com.example.feedback1_aplicaciondegestiondenovelass.modelo.VistaModeloConfiguracion
 import com.example.feedback1_aplicaciondegestiondenovelass.ui.theme.Feedback1AplicacióndeGestióndeNovelassTheme
 import com.google.firebase.auth.FirebaseAuth
+import java.util.concurrent.TimeUnit
 
 class MainActivity : ComponentActivity() {
     private lateinit var auth: FirebaseAuth
@@ -57,18 +58,23 @@ class MainActivity : ComponentActivity() {
         scheduleConnectivityWorker()
     }
 
+    // Modificación de la función scheduleConnectivityWorker en MainActivity
     private fun scheduleConnectivityWorker() {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-        val workRequest = OneTimeWorkRequestBuilder<ConnectivityWorker>()
+        val workRequest = PeriodicWorkRequestBuilder<ConnectivityWorker>(1, TimeUnit.HOURS) // Ajusta el intervalo según sea necesario
             .setConstraints(constraints)
             .build()
 
-        WorkManager.getInstance(this).enqueue(workRequest)
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            "ConnectivityWorker",
+            ExistingPeriodicWorkPolicy.KEEP,
+            workRequest
+        )
     }
-
+}
 
 
 
@@ -122,4 +128,3 @@ class MainActivity : ComponentActivity() {
         Utiliza WeakReference para evitar fugas de memoria en caso de que mantengas referencias a objetos que pueden ser recolectados por el recolector de basura.
      */
 
-}
