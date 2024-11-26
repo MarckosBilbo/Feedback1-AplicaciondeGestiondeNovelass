@@ -58,13 +58,13 @@ class MainActivity : ComponentActivity() {
         scheduleConnectivityWorker()
     }
 
-    // Modificación de la función scheduleConnectivityWorker en MainActivity
+    // MODIFICADA la función scheduleConnectivityWorker en MainActivity
     private fun scheduleConnectivityWorker() {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-        val workRequest = PeriodicWorkRequestBuilder<ConnectivityWorker>(1, TimeUnit.HOURS) // Ajusta el intervalo según sea necesario
+        val workRequest = PeriodicWorkRequestBuilder<ConnectivityWorker>(1, TimeUnit.HOURS)
             .setConstraints(constraints)
             .build()
 
