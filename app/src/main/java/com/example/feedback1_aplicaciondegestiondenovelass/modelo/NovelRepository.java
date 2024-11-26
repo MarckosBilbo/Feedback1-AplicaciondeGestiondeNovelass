@@ -5,16 +5,23 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import com.example.feedback1_aplicaciondegestiondenovelass.util.RedOptima;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import com.google.gson.Gson;
 
 public class NovelRepository {
     private DatabaseReference databaseReference;
@@ -37,10 +44,16 @@ public class NovelRepository {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<Novel> novels = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Novel novel = snapshot.getValue(Novel.class);
-                    if (novel != null) {
-                        novel.setKey(snapshot.getKey());
-                        novels.add(novel);
+                    try {
+                        String compressedData = snapshot.getValue(String.class);
+                        byte[] decompressedData = RedOptima.descomprimirDatos(Base64.getDecoder().decode(compressedData));
+                        Novel novel = new Gson().fromJson(new String(decompressedData), Novel.class);
+                        if (novel != null) {
+                            novel.setKey(snapshot.getKey());
+                            novels.add(novel);
+                        }
+                    } catch (IOException e) {
+                        Log.e("NovelRepository", "Error al descomprimir los datos", e);
                     }
                 }
                 allNovels.postValue(novels);
@@ -58,13 +71,19 @@ public class NovelRepository {
         executorService.execute(() -> {
             DatabaseReference newRef = databaseReference.push();
             novel.setKey(newRef.getKey());
-            newRef.setValue(novel).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    Log.d("NovelRepository", "Novel inserted successfully");
-                } else {
-                    Log.e("NovelRepository", "Error inserting novel", task.getException());
-                }
-            });
+            try {
+                byte[] datosComprimidos = RedOptima.comprimirDatos(novel.toJson().getBytes());
+                String encodedData = Base64.getEncoder().encodeToString(datosComprimidos);
+                newRef.setValue(encodedData).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("NovelRepository", "Novela insertada con éxito");
+                    } else {
+                        Log.e("NovelRepository", "Error al insertar la novela", task.getException());
+                    }
+                });
+            } catch (IOException e) {
+                Log.e("NovelRepository", "Error al comprimir los datos", e);
+            }
         });
     }
 
@@ -73,7 +92,15 @@ public class NovelRepository {
     }
 
     public void update(Novel novel) {
-        executorService.execute(() -> databaseReference.child(novel.getKey()).setValue(novel));
+        executorService.execute(() -> {
+            try {
+                byte[] datosComprimidos = RedOptima.comprimirDatos(novel.toJson().getBytes());
+                String encodedData = Base64.getEncoder().encodeToString(datosComprimidos);
+                databaseReference.child(novel.getKey()).setValue(encodedData);
+            } catch (IOException e) {
+                Log.e("NovelRepository", "Error al comprimir los datos", e);
+            }
+        });
     }
 
     public LiveData<List<Novel>> getAllNovels() {
