@@ -23,6 +23,13 @@ android {
     }
 
     buildTypes {
+
+        debug {
+            // Activa el modo debug y habilita el perfilado avanzado
+            isDebuggable = true
+            proguardFiles("proguard-rules.pro")
+        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -31,6 +38,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -63,8 +71,10 @@ android {
 
 dependencies {
 
-    implementation (libs.ui)
-    implementation (libs.material3)
+
+    implementation(libs.google.gson)
+    implementation(libs.ui)
+    implementation(libs.material3)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
