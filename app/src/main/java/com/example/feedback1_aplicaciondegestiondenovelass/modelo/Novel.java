@@ -12,9 +12,11 @@ public class Novel implements Parcelable {
     private int year;
     private String synopsis;
     private boolean isFavorite;
+    private double latitude;  // Nueva propiedad
+    private double longitude; // Nueva propiedad
 
     public Novel() {
-        // Default constructor required for calls to DataSnapshot.getValue(Novel.class)
+        // Constructor requerido para Firebase
     }
 
     public Novel(String title, String author, int year, String synopsis) {
@@ -32,6 +34,8 @@ public class Novel implements Parcelable {
         year = in.readInt();
         synopsis = in.readString();
         isFavorite = in.readByte() != 0;
+        latitude = in.readDouble();  // Nueva propiedad
+        longitude = in.readDouble(); // Nueva propiedad
     }
 
     public static final Creator<Novel> CREATOR = new Creator<Novel>() {
@@ -54,6 +58,8 @@ public class Novel implements Parcelable {
         dest.writeInt(year);
         dest.writeString(synopsis);
         dest.writeByte((byte) (isFavorite ? 1 : 0));
+        dest.writeDouble(latitude);  // Nueva propiedad
+        dest.writeDouble(longitude); // Nueva propiedad
     }
 
     @Override
@@ -61,12 +67,11 @@ public class Novel implements Parcelable {
         return 0;
     }
 
-
     public String toJson() {
         return new Gson().toJson(this);
     }
 
-    // Getters and setters
+    // Getters y setters
     public String getKey() { return key; }
     public void setKey(String key) { this.key = key; }
     public String getTitle() { return title; }
@@ -79,4 +84,9 @@ public class Novel implements Parcelable {
     public void setSynopsis(String synopsis) { this.synopsis = synopsis; }
     public boolean isFavorite() { return isFavorite; }
     public void setFavorite(boolean favorite) { isFavorite = favorite; }
+
+    public double getLatitude() { return latitude; }
+    public void setLatitude(double latitude) { this.latitude = latitude; }
+    public double getLongitude() { return longitude; }
+    public void setLongitude(double longitude) { this.longitude = longitude; }
 }
