@@ -15,6 +15,7 @@ import com.google.android.gms.location.LocationServices
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
+import java.io.File
 
 @Composable
 fun MapaUbicacionUsuario(navController: NavHostController) {
@@ -23,11 +24,15 @@ fun MapaUbicacionUsuario(navController: NavHostController) {
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
     AndroidView(factory = { mapView }) {
+        // Configuración del mapa
         mapView.setTileSource(org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK)
-        mapView.setBuiltInZoomControls(true)
-        mapView.controller.setZoom(15.0)
+        mapView.setMultiTouchControls(true) // Habilitar gestos multitáctiles
 
-        // Verificar permisos y localizar al usuario
+        // Centrar el mapa en la Península Ibérica inicialmente
+        mapView.controller.setCenter(GeoPoint(40.0, -3.0)) // España central
+        mapView.controller.setZoom(6.0)
+
+        // Intentar obtener la ubicación del usuario
         if (ActivityCompat.checkSelfPermission(
                 context,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -71,4 +76,6 @@ fun MapaUbicacionUsuario(navController: NavHostController) {
         Text("Volver a la Principal")
     }
 }
+
+
 
