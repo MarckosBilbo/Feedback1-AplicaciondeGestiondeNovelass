@@ -89,7 +89,14 @@ fun PantallaPrincipal(
                                     viewModel.update(it)
                                 }
                             } else {
-                                viewModel.insert(Novel(title, author, year.toIntOrNull() ?: -1, synopsis))
+                                val randomLatitude = (-90..90).random() + Math.random()
+                                val randomLongitude = (-180..180).random() + Math.random()
+                                viewModel.insert(
+                                    Novel(title, author, year.toIntOrNull() ?: -1, synopsis).apply {
+                                        latitude = randomLatitude
+                                        longitude = randomLongitude
+                                    }
+                                )
                             }
                             title = ""
                             author = ""
@@ -159,8 +166,28 @@ fun PantallaPrincipal(
         ) {
             Text("Configuración")
         }
+
+        // Buttons to navigate to maps
+        Button(
+            onClick = { navController.navigate("mapa_usuario") },
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(16.dp)
+        ) {
+            Text("Ver Mi Ubicación")
+        }
+
+        Button(
+            onClick = { navController.navigate("mapa_novelas") },
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(start = 100.dp, bottom = 16.dp)
+        ) {
+            Text("Ver Novelas en el Mapa")
+        }
     }
 }
+
 
 
 @Composable
