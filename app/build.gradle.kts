@@ -109,6 +109,9 @@ dependencies {
 
     //extras
     implementation (libs.androidx.work.runtime.ktx)
+
+    implementation(libs.osmdroid.android)
+    implementation(libs.play.services.location)
 }
 
 // Aplica el plugin de Google Services
