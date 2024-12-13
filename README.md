@@ -90,11 +90,20 @@ Este archivo define el composable que muestra el widget de novelas favoritas en 
 
 Este archivo contiene la clase `RedOptima` que proporciona un método para comprimir datos utilizando GZIP.
 
+### `MapaNovelas.kt`
+
+Este archivo define la pantalla que muestra un mapa con las ubicaciones asociadas a las novelas. Cada novela se representa mediante un marcador en el mapa, utilizando las coordenadas de latitud y longitud almacenadas en la clase Novel. El mapa está centrado inicialmente en la Península Ibérica, y permite la interacción con los marcadores para identificar las novelas. La clase utiliza la biblioteca OSMDroid para renderizar el mapa.
+
+### `MapaUbicacionUsuario.kt`
+
+Este archivo define la pantalla que muestra la ubicación actual del usuario en un mapa. Si no se puede obtener la ubicación del usuario (por falta de permisos o problemas de conectividad), el mapa se centra en una ubicación predeterminada (Madrid). La clase utiliza OSMDroid para la visualización del mapa y el cliente de ubicación de Google Play Services para obtener la posición del usuario. Además, incluye un marcador que señala la ubicación mostrada en el mapa.
+
+
 ## Clases Modificadas
 
-- **`MainActivity`**: Se ha modificado el método `scheduleConnectivityWorker` en `MainActivity` para utilizar `PeriodicWorkRequestBuilder` en lugar de `OneTimeWorkRequestBuilder`, lo que permite ejecutar la tarea de conectividad de manera periódica y optimizar el uso de batería.
+- **`MainActivity`**: Se ha modificado el método `scheduleConnectivityWorker` en `MainActivity` para utilizar `PeriodicWorkRequestBuilder` en lugar de `OneTimeWorkRequestBuilder`, lo que permite ejecutar la tarea de conectividad de manera periódica y optimizar el uso de batería ademas hace de puente entre la actividad principal y las pantallas de mapas.
 - **`NovelRepository`**: Concretamente los metodos de envio y traida de datos de Firebase (insert y update) han sido modificados aprovechando la compresion de datos de `RedOptima` para mejorar el uso de red de la app. 
-
+- **`PantallaPrincipal`**: Aniadido un boton para abrir el mapa de novelas y otro para abrir el mapa de ubicacion del usuario.
 ## Clases Borradas
 
 - **`NovelDatabase.java`**: Esta clase fue eliminada porque la aplicación ya no utiliza Room Database para el almacenamiento de datos, sino que ahora utiliza Firebase.
@@ -115,6 +124,7 @@ Este archivo contiene la clase `RedOptima` que proporciona un método para compr
 5. **Login**: Ingresa tu email y contraseña y haz clic en "Login".
 6. **Registro**: Ingresa tu email y contraseña y haz clic en "Register".
 7. **Cambiar Tema**: Ve a la pantalla de configuración y haz clic en "Cambiar fondo" para alternar entre modo claro y oscuro.
+8. **Ver Mapas**: En la pantalla principal, selecciona la opción para abrir el mapa de novelas o mapa de ususario. Esto te mostrará un mapa con las ubicaciones asociadas a cada novela en tu colección o la ubicacion actual del usuario segun el mapa.
 
 ## Dependencias
 
@@ -122,3 +132,6 @@ Este archivo contiene la clase `RedOptima` que proporciona un método para compr
 - Jetpack Compose
 - Firebase
 - Material Design 3
+- GSon
+- OSMDroid
+- Google Play Services
