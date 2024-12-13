@@ -24,10 +24,15 @@ fun MapaNovelas(navController: NavHostController) {
     val mapView = remember { MapView(context) }
 
     AndroidView(factory = { mapView }) {
+        // Configuración del mapa
         mapView.setTileSource(org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK)
-        mapView.setBuiltInZoomControls(true)
-        mapView.controller.setZoom(2.0)
+        mapView.setMultiTouchControls(true) // Habilitar gestos multitáctiles
 
+        // Centrar en la Península Ibérica
+        mapView.controller.setCenter(GeoPoint(40.0, -3.0)) // Centro: España
+        mapView.controller.setZoom(6.0) // Zoom adecuado para abarcar la región
+
+        // Añadir marcadores para las novelas
         novels.forEach { novel: Novel ->
             val marker = Marker(mapView)
             marker.position = GeoPoint(novel.latitude, novel.longitude)
@@ -40,5 +45,6 @@ fun MapaNovelas(navController: NavHostController) {
         Text("Volver a la Principal")
     }
 }
+
 
 
