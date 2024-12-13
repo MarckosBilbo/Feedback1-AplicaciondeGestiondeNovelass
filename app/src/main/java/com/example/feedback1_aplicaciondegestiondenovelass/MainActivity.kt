@@ -26,6 +26,8 @@ import com.example.feedback1_aplicaciondegestiondenovelass.fragments.DetallesNov
 import com.example.feedback1_aplicaciondegestiondenovelass.modelo.VistaModeloConfiguracion
 import com.example.feedback1_aplicaciondegestiondenovelass.ui.theme.Feedback1AplicacióndeGestióndeNovelassTheme
 import com.google.firebase.auth.FirebaseAuth
+import org.osmdroid.config.Configuration
+import java.io.File
 import java.util.concurrent.TimeUnit
 
 class MainActivity : ComponentActivity() {
@@ -33,6 +35,14 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Configurar OSMDroid
+        Configuration.getInstance().load(
+            this, getSharedPreferences("osmdroid", MODE_PRIVATE)
+        )
+        Configuration.getInstance().osmdroidBasePath = File(filesDir, "osmdroid")
+        Configuration.getInstance().osmdroidTileCache = File(cacheDir, "osmdroid/tiles")
+
         auth = FirebaseAuth.getInstance()
 
         if (auth.currentUser == null) {
@@ -80,6 +90,7 @@ class MainActivity : ComponentActivity() {
         )
     }
 }
+
 
 
 
