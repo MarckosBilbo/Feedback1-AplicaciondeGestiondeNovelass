@@ -13,13 +13,14 @@ import androidx.navigation.compose.rememberNavController
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.feedback1_aplicaciondegestiondenovelass.service.ConnectivityWorker
 import com.example.feedback1_aplicaciondegestiondenovelass.vista.PantallaLogin
 import com.example.feedback1_aplicaciondegestiondenovelass.vista.PantallaPrincipal
 import com.example.feedback1_aplicaciondegestiondenovelass.vista.PantallaConfiguracion
+import com.example.feedback1_aplicaciondegestiondenovelass.vista.MapaNovelas
+import com.example.feedback1_aplicaciondegestiondenovelass.vista.MapaUbicacionUsuario
 import com.example.feedback1_aplicaciondegestiondenovelass.fragments.ListaNovelasFragment
 import com.example.feedback1_aplicaciondegestiondenovelass.fragments.DetallesNovelaFragment
 import com.example.feedback1_aplicaciondegestiondenovelass.modelo.VistaModeloConfiguracion
@@ -51,6 +52,10 @@ class MainActivity : ComponentActivity() {
                     composable("settings") { PantallaConfiguracion(navController, isDarkMode) }
                     composable("lista_novelas") { ListaNovelasFragment() }
                     composable("detalles_novela") { DetallesNovelaFragment() }
+
+                    // Nuevas pantallas añadidas
+                    composable("mapa_novelas") { MapaNovelas(navController) }
+                    composable("mapa_usuario") { MapaUbicacionUsuario(navController) }
                 }
             }
         }
@@ -58,7 +63,7 @@ class MainActivity : ComponentActivity() {
         scheduleConnectivityWorker()
     }
 
-    // MODIFICADA la función scheduleConnectivityWorker en MainActivity
+    // Función para configurar el ConnectivityWorker
     private fun scheduleConnectivityWorker() {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -78,26 +83,27 @@ class MainActivity : ComponentActivity() {
 
 
 
-    /*
-     Para optimizar la bateria podemos hacer esto:
-     1º para el check deberia de verlo en profiler aunque pide batterystats y Battery Historian
 
-   // Modificación de la función scheduleConnectivityWorker en MainActivity
-    private fun scheduleConnectivityWorker() {
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
+/*
+ Para optimizar la bateria podemos hacer esto:
+ 1º para el check deberia de verlo en profiler aunque pide batterystats y Battery Historian
 
-        val workRequest = PeriodicWorkRequestBuilder<ConnectivityWorker>(1, TimeUnit.HOURS) // Ajusta el intervalo según sea necesario
-            .setConstraints(constraints)
-            .build()
+// Modificación de la función scheduleConnectivityWorker en MainActivity
+private fun scheduleConnectivityWorker() {
+    val constraints = Constraints.Builder()
+        .setRequiredNetworkType(NetworkType.CONNECTED)
+        .build()
 
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-            "ConnectivityWorker",
-            ExistingPeriodicWorkPolicy.KEEP,
-            workRequest
-        )
-    }*/
+    val workRequest = PeriodicWorkRequestBuilder<ConnectivityWorker>(1, TimeUnit.HOURS) // Ajusta el intervalo según sea necesario
+        .setConstraints(constraints)
+        .build()
+
+    WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+        "ConnectivityWorker",
+        ExistingPeriodicWorkPolicy.KEEP,
+        workRequest
+    )
+}*/
 
 
 
