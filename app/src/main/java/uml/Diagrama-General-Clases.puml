@@ -40,6 +40,8 @@ package com.example.feedback1_aplicaciondegestiondenovelass.modelo {
         - int year
         - String synopsis
         - boolean isFavorite
+        - double latitude
+        - double longitude
         + Novel()
         + Novel(String, String, int, String)
         + writeToParcel(Parcel, int): void
@@ -56,6 +58,10 @@ package com.example.feedback1_aplicaciondegestiondenovelass.modelo {
         + setSynopsis(String): void
         + isFavorite(): boolean
         + setFavorite(boolean): void
+        + getLatitude(): double
+        + setLatitude(double): void
+        + getLongitude(): double
+        + setLongitude(double): void
     }
 
     class NovelRepository {
@@ -109,6 +115,14 @@ package com.example.feedback1_aplicaciondegestiondenovelass.vista {
     class PantallaConfiguracion {
         + PantallaConfiguracion(NavController, boolean, VistaModeloConfiguracion): void
     }
+
+    class MapaNovelas {
+        + MapaNovelas(NavHostController): void
+    }
+
+    class MapaUbicacionUsuario {
+        + MapaUbicacionUsuario(NavHostController): void
+    }
 }
 
 package com.example.feedback1_aplicaciondegestiondenovelass.widgetAdaptado {
@@ -127,6 +141,8 @@ MyApplication --> MainActivity
 MainActivity --> PantallaLogin
 MainActivity --> PantallaPrincipal
 MainActivity --> PantallaConfiguracion
+MainActivity --> MapaNovelas
+MainActivity --> MapaUbicacionUsuario
 MainActivity --> VistaModeloConfiguracion
 VistaModeloConfiguracion --> PreferencesManager
 VistaModeloNovela --> NovelRepository
