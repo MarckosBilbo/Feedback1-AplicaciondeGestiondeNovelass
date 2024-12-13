@@ -1,12 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permisos necesarios -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-
         android:name="com.example.feedback1_aplicaciondegestiondenovelass.MyApplication"
         android:windowSoftInputMode="adjustPan"
         android:allowBackup="true"
@@ -19,6 +21,10 @@
         android:theme="@style/Theme.Feedback1AplicaciondeGestiondeNovelass"
         tools:targetApi="34">
 
+        <!-- Configuración OSMDroid -->
+        <meta-data android:name="org.osmdroid.config" android:value="osmdroid" />
+
+        <!-- Actividades -->
         <activity
             android:name="com.example.feedback1_aplicaciondegestiondenovelass.MainActivity"
             android:exported="true"
@@ -29,12 +35,8 @@
             </intent-filter>
         </activity>
 
-        <!-- Declarar la actividad PantallaLogin -->
         <activity android:name="com.example.feedback1_aplicaciondegestiondenovelass.vista.PantallaLogin" />
-
-        <!-- Declarar la actividad PantallaRegistro -->
         <activity android:name="com.example.feedback1_aplicaciondegestiondenovelass.vista.PantallaRegistro" />
 
     </application>
-
 </manifest>
