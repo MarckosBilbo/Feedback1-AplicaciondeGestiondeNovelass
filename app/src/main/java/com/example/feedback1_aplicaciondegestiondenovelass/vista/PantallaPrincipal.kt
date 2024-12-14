@@ -89,8 +89,8 @@ fun PantallaPrincipal(
                                     viewModel.update(it)
                                 }
                             } else {
-                                val randomLatitude = (-90..90).random() + Math.random()
-                                val randomLongitude = (-180..180).random() + Math.random()
+                                val randomLatitude = (35..71).random() + Math.random()
+                                val randomLongitude = (-10..40).random() + Math.random()
                                 viewModel.insert(
                                     Novel(title, author, year.toIntOrNull() ?: -1, synopsis).apply {
                                         latitude = randomLatitude

@@ -30,7 +30,7 @@ fun MapaNovelas(navController: NavHostController) {
 
         // Centrar en la Península Ibérica
         mapView.controller.setCenter(GeoPoint(40.0, -3.0)) // Centro: España
-        mapView.controller.setZoom(6.0) // Zoom adecuado para abarcar la región
+        mapView.controller.setZoom(4.0) // Zoom adecuado para abarcar la región
 
         // Añadir marcadores para las novelas
         novels.forEach { novel: Novel ->
